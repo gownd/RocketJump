@@ -51,7 +51,7 @@ public class Rocket : MonoBehaviour
                 if(rb.GetComponent<Mover>())
                 {
                     Vector2 direction = (hit.transform.position - transform.position).normalized;
-                    rb.GetComponent<Mover>().Dash(direction);
+                    rb.GetComponent<Mover>().RocketJump(direction);
                 }
 
                 

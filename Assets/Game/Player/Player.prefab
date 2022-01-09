@@ -433,10 +433,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e284bf49c27c49248aee691b15528661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runSpeed: 240
+  runSpeed: 250
   sensitivity_a: 8
   sensitivity_r: 12
-  sensitivity_jump: 12
+  sensitivity_jump: 10
   sensitivity_onWall: 12
   jumpForce: 12
   fallMultiplier: 2
@@ -448,14 +448,13 @@ MonoBehaviour:
   wallJumpLerp: 6
   wallJumpXDivider: 1.6
   wallJumpYDivider: 1.3
-  waitTimeToFixWallJump: 0.1
-  dashForce: 30
-  dashLerp: 1
-  dashGravity: 3
-  timeToRecovery: 0.3
-  timeToEndDash: 0.5
-  maxDrag: 8
+  rocketJumpForce: 18
+  rocketJumpLerp: 1
+  rocketJumpGravity: 3
+  timeToRecoveryGravity: 0.3
+  maxDrag: 0
   timeToRecoveryDrag: 0.3
+  waitTimeToOffChecker: 0.1
   sprite: {fileID: 609260565}
 --- !u!114 &4431172283508323143
 MonoBehaviour:
