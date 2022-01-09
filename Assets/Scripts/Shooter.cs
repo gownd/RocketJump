@@ -1,7 +1,9 @@
 using UnityEngine;
+using MoreMountains.Feedbacks;
 
 public class Shooter : MonoBehaviour 
 {
+    [SerializeField] MMFeedbacks shootFeedback;
     [SerializeField] Transform firePoint = null;
     [SerializeField] GameObject rocketPrefab = null;
 
@@ -34,6 +36,8 @@ public class Shooter : MonoBehaviour
 
     void Shoot()
     {
+        shootFeedback.PlayFeedbacks();
+
         GameObject rocket = Instantiate(rocketPrefab, firePoint.position, firePoint.rotation);
         Rigidbody2D rbRocket = rocket.GetComponent<Rigidbody2D>();
         rbRocket.AddForce(firePoint.right * shootForce, ForceMode2D.Impulse);

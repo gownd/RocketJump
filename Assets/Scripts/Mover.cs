@@ -36,20 +36,28 @@ public class Mover : MonoBehaviour
     [SerializeField] float timeToRecoveryGravity = 0.3f;
     [SerializeField] float maxDrag = 8f;
     [SerializeField] float timeToRecoveryDrag = 0.3f;
+    [SerializeField] float timeToEndRocketJump = 0.3f;
+
+    [Header("Jetpack")]
+    [SerializeField] float maxFuel = 5f;
+    [SerializeField] float jetForce = 1f;
 
     [Header("General")]
     [SerializeField] float waitTimeToOffChecker = 0.1f;
 
-
     [Header("Sprite")]
     [SerializeField] Transform sprite = null;
 
+    [Header("Feedbacks")]
+    [SerializeField] MMFeedbacks rocketJumpFeedback = null;
+    [SerializeField] ParticleSystem rocketJumpTrailParticle = null;
+ 
     //State
     bool isAlive = true;
     bool isJumping = false;
     bool isWallSlidng = true;
     bool isWallJumping = false;
-    bool isDashing = false;
+    bool isRocketJumping = false;
 
     bool isCheckerOn = true;
 
@@ -84,11 +92,6 @@ public class Mover : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-
-        }
-
         if (isAlive)
         {
             HandleJumpEnd();
@@ -140,11 +143,16 @@ public class Mover : MonoBehaviour
         }
     }
 
-    public void OnDash(InputAction.CallbackContext context)
+    public void OnJetpack(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            // Dash();
+            print("JET");
+        }
+
+        if (context.phase == InputActionPhase.Canceled)
+        {
+            print("END");
         }
     }
 
@@ -164,7 +172,7 @@ public class Mover : MonoBehaviour
 
         Vector2 playerVelocity = new Vector2(runThrow * runSpeed * Time.fixedDeltaTime, myRigidbody2D.velocity.y);
 
-        if (!isWallJumping && !isDashing)
+        if (!isWallJumping && !isRocketJumping)
         {
             myRigidbody2D.velocity = playerVelocity;
         }
@@ -206,7 +214,7 @@ public class Mover : MonoBehaviour
     public void TriggerJump()
     {
         // if (isJumping) return;
-        if (isDashing) return;
+        if (isRocketJumping) return;
         if (coyoteTimeCounter < 0f || jumpBufferCounter < 0f) return;
 
         isJumping = true;
@@ -268,13 +276,13 @@ public class Mover : MonoBehaviour
         //     isJumping = false;
         // }
 
-        if (isJumping || isWallJumping || isDashing)
+        if (isJumping || isWallJumping || isRocketJumping)
         {
             if (IsGrounded() && isCheckerOn)
             {
                 isJumping = false;
                 isWallJumping = false;
-                isDashing = false;
+                EndRocketJump();
             }
         }
     }
@@ -296,7 +304,7 @@ public class Mover : MonoBehaviour
             myRigidbody2D.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1f) * Time.fixedDeltaTime;
         }
 
-        if (isWallSlidng || isDashing) { return; }
+        if (isWallSlidng || isRocketJumping) { return; }
         
         if (myRigidbody2D.velocity.y > 0 && jumpActionPhase != InputActionPhase.Performed)
         {
@@ -321,7 +329,7 @@ public class Mover : MonoBehaviour
 
                 isJumping = false;
                 isWallJumping = false;
-                isDashing = false;
+                EndRocketJump();
             }
         }
         else isWallSlidng = false;
@@ -354,13 +362,19 @@ public class Mover : MonoBehaviour
         // Vector2 dir = new Vector2(inputXValue, inputYValue);
         // direction = dir.normalized;
 
+        if(isRocketJumping)
+        {
+            myAnimator.SetTrigger("RocketJumpAgain");
+        }
+
+        StartRocketJump();
 
         StartCoroutine(HandleRocketJump(direction));
     }
 
     IEnumerator HandleRocketJump(Vector2 direction)
     {
-        isDashing = true;
+        rocketJumpFeedback.PlayFeedbacks();
 
         StartCoroutine(DisableCheckerForAWhile(waitTimeToOffChecker));
 
@@ -373,17 +387,41 @@ public class Mover : MonoBehaviour
 
         yield return new WaitForSeconds(timeToRecoveryGravity);
         myRigidbody2D.gravityScale = 3f;
+        rocketJumpTrailParticle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
 
         // dashParticle.Stop();
 
-        // GetComponent<BetterJumping>().enabled = true;
-        // yield return new WaitForSeconds(timeToEndDash);
-        // isDashing = false;
+        // yield return new WaitForSeconds(timeToEndRocketJump);
+        // isRocketJumping = false;
     }
 
     void SetRigidbodyDrag(float dragToSet)
     {
         myRigidbody2D.drag = dragToSet;
+    }
+
+    void StartRocketJump()
+    {
+        isRocketJumping = true;
+        rocketJumpTrailParticle.Play();
+    }
+
+    void EndRocketJump()
+    {
+        isRocketJumping = false;
+        rocketJumpTrailParticle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+    }
+
+    ////////////////////////////////// JETPACK /////////////////////////////////////
+
+    void StartJetPack()
+    {
+
+    }
+
+    void EndJetPack()
+    {
+
     }
 
     ////////////////////////////////// OTHERS //////////////////////////////////////
@@ -400,6 +438,7 @@ public class Mover : MonoBehaviour
         myAnimator.SetBool("isOnGround", IsGrounded());
         myAnimator.SetFloat("yVelocity", myRigidbody2D.velocity.y);
         myAnimator.SetBool("isWallSliding", isWallSlidng);
+        myAnimator.SetBool("isRocketJumping", isRocketJumping);
 
         FlipSprite();
     }

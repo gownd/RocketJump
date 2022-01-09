@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MoreMountains.Feedbacks;
 
 public class Rocket : MonoBehaviour
 {
-    [SerializeField] ParticleSystem explosionVFXPrefab = null;
+    [SerializeField] MMFeedbacks explosionFeedback = null;
     [SerializeField] float radius = 1f;
     [SerializeField] float explodeForce = 1f;
 
@@ -32,10 +33,9 @@ public class Rocket : MonoBehaviour
     {
         if(other.collider.CompareTag("Player")) return;
 
-        Instantiate(explosionVFXPrefab, transform.position, Quaternion.identity);
+        explosionFeedback.PlayFeedbacks();
 
         Explode();
-
         Destroy(gameObject);
     }
 
@@ -53,9 +53,6 @@ public class Rocket : MonoBehaviour
                     Vector2 direction = (hit.transform.position - transform.position).normalized;
                     rb.GetComponent<Mover>().RocketJump(direction);
                 }
-
-                
-
                 // Vector2 forceToAdd = direction * explodeForce;
 
                 // rb.AddForce(forceToAdd, ForceMode2D.Impulse);

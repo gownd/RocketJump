@@ -22,7 +22,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Dash",
+                    "name": "Jetpack",
                     "type": "Button",
                     "id": "f65d9d03-7fcc-4bbf-8861-5653406f005f",
                     "expectedControlType": "Button",
@@ -126,7 +126,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Dash",
+                    "action": "Jetpack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

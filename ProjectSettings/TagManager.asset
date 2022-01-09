@@ -47,6 +47,9 @@ TagManager:
   - name: Foreground
     uniqueID: 728990723
     locked: 0
+  - name: Trail VFX
+    uniqueID: 4047740245
+    locked: 0
   - name: Object
     uniqueID: 2542393783
     locked: 0
