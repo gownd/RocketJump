@@ -5533,7 +5533,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8834200587956941207}
         m_TargetAssemblyTypeName: Mover, Assembly-CSharp
-        m_MethodName: OnDash
+        m_MethodName: OnJetpack
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5543,8 +5543,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: f65d9d03-7fcc-4bbf-8861-5653406f005f
-    m_ActionName: Player/Dash[/Keyboard/leftShift]
+    m_ActionId: 00cc1797-c6a9-4c62-9c2c-a32acb30da00
+    m_ActionName: Player/Jetpack
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -5584,6 +5584,8 @@ MonoBehaviour:
   maxDrag: 0
   timeToRecoveryDrag: 0.3
   timeToEndRocketJump: 1
+  maxFuel: 5
+  jetForce: 30
   waitTimeToOffChecker: 0.1
   sprite: {fileID: 609260565}
   rocketJumpFeedback: {fileID: 135801573}

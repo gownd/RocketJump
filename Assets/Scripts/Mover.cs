@@ -38,10 +38,6 @@ public class Mover : MonoBehaviour
     [SerializeField] float timeToRecoveryDrag = 0.3f;
     [SerializeField] float timeToEndRocketJump = 0.3f;
 
-    [Header("Jetpack")]
-    [SerializeField] float maxFuel = 5f;
-    [SerializeField] float jetForce = 1f;
-
     [Header("General")]
     [SerializeField] float waitTimeToOffChecker = 0.1f;
 
@@ -58,6 +54,7 @@ public class Mover : MonoBehaviour
     bool isWallSlidng = true;
     bool isWallJumping = false;
     bool isRocketJumping = false;
+    bool isJetPacking = false;
 
     bool isCheckerOn = true;
 
@@ -140,19 +137,6 @@ public class Mover : MonoBehaviour
         if (jumpActionPhase == InputActionPhase.Performed)
         {
             jumpBufferCounter = jumpBufferTime;
-        }
-    }
-
-    public void OnJetpack(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Performed)
-        {
-            print("JET");
-        }
-
-        if (context.phase == InputActionPhase.Canceled)
-        {
-            print("END");
         }
     }
 
@@ -299,6 +283,8 @@ public class Mover : MonoBehaviour
 
     private void HandleShortJump()
     {
+        if(isJetPacking) return;
+
         if (myRigidbody2D.velocity.y < 0)
         {
             myRigidbody2D.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1f) * Time.fixedDeltaTime;
@@ -404,6 +390,7 @@ public class Mover : MonoBehaviour
     {
         isRocketJumping = true;
         rocketJumpTrailParticle.Play();
+        FindObjectOfType<SlowMotionHandler>().EndSlowMotion();
     }
 
     void EndRocketJump()
@@ -412,17 +399,6 @@ public class Mover : MonoBehaviour
         rocketJumpTrailParticle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
     }
 
-    ////////////////////////////////// JETPACK /////////////////////////////////////
-
-    void StartJetPack()
-    {
-
-    }
-
-    void EndJetPack()
-    {
-
-    }
 
     ////////////////////////////////// OTHERS //////////////////////////////////////
 

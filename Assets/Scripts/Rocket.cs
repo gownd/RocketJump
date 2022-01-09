@@ -8,6 +8,7 @@ public class Rocket : MonoBehaviour
     [SerializeField] MMFeedbacks explosionFeedback = null;
     [SerializeField] float radius = 1f;
     [SerializeField] float explodeForce = 1f;
+    [SerializeField] float flyForce = 1f;
 
 
     Rigidbody2D rb;
@@ -15,6 +16,11 @@ public class Rocket : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void FixedUpdate() 
+    {
+        rb.AddForce(rb.velocity.normalized * flyForce * Time.fixedDeltaTime);    
     }
 
     private void OnDrawGizmos() 
@@ -53,11 +59,6 @@ public class Rocket : MonoBehaviour
                     Vector2 direction = (hit.transform.position - transform.position).normalized;
                     rb.GetComponent<Mover>().RocketJump(direction);
                 }
-                // Vector2 forceToAdd = direction * explodeForce;
-
-                // rb.AddForce(forceToAdd, ForceMode2D.Impulse);
-
-                // print(direction);
             }
         }
     }

@@ -24,7 +24,7 @@
                 {
                     "name": "Jetpack",
                     "type": "Button",
-                    "id": "f65d9d03-7fcc-4bbf-8861-5653406f005f",
+                    "id": "00cc1797-c6a9-4c62-9c2c-a32acb30da00",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -121,8 +121,8 @@
                 },
                 {
                     "name": "",
-                    "id": "99e2a73c-f3ed-41c6-839e-5e6a25d1b0a7",
-                    "path": "<Keyboard>/leftShift",
+                    "id": "5d9c62a5-94b0-4e84-abb9-15f2b64fae20",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

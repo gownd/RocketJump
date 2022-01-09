@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2043740350164523351}
   - component: {fileID: 2043740350164523348}
-  - component: {fileID: -5706696351845535474}
   - component: {fileID: -180584913631087658}
   - component: {fileID: 2225141867542543099}
+  - component: {fileID: 1535140057233546004}
   m_Layer: 7
   m_Name: Rocket
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 2043740350164523349}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.55, y: 0.25, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2316326175043484248}
   m_Father: {fileID: 0}
@@ -73,10 +73,10 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1752573513
-  m_SortingLayer: 3
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 1, g: 0.7466017, b: 0, a: 1}
+  m_SortingLayer: 4
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 2e25e7d9e26314a45968d79224681080, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -86,22 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &-5706696351845535474
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2043740350164523349}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!50 &-180584913631087658
 Rigidbody2D:
   serializedVersion: 4
@@ -138,6 +122,23 @@ MonoBehaviour:
   explosionFeedback: {fileID: 361884302340338030}
   radius: 2.5
   explodeForce: 12
+  flyForce: 1500
+--- !u!70 &1535140057233546004
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043740350164523349}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -4.973799e-14, y: -0.00000041723257}
+  m_Size: {x: 0.96, y: 0.7649139}
+  m_Direction: 1
 --- !u!1 &8350620706332283763
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,6 +152,7 @@ GameObject:
   - component: {fileID: 6987805467866569075}
   - component: {fileID: 2929855588785454939}
   - component: {fileID: 1247166750608686160}
+  - component: {fileID: 762327081414178513}
   m_Layer: 7
   m_Name: Explosion Feedbacks
   m_TagString: Untagged
@@ -188,6 +190,7 @@ MonoBehaviour:
   - {fileID: 6987805467866569075}
   - {fileID: 2929855588785454939}
   - {fileID: 1247166750608686160}
+  - {fileID: 762327081414178513}
   InitializationMode: 2
   SafeMode: 3
   Direction: 0
@@ -268,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdfe4b9b079619143a9748eeee75e698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Active: 1
+  Active: 0
   Label: Particles Instantiation
   Chance: 100
   Timing:
@@ -387,3 +390,47 @@ MonoBehaviour:
     m_PropagationSpeed: 343
   Velocity: {x: 2, y: 2, z: 2}
   ClearImpulseOnStop: 0
+--- !u!114 &762327081414178513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8350620706332283763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bce85594d78e41442a7bfb6ed40e10a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Instantiate Object
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    ExcludeFromHoldingPauses: 0
+    InterruptsOnStop: 1
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    MMFeedbacksDirectionCondition: 0
+    PlayDirection: 0
+    ConstantIntensity: 0
+    UseIntensityInterval: 0
+    IntensityIntervalMin: 0
+    IntensityIntervalMax: 0
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  GameObjectToInstantiate: {fileID: 6463213617162374633, guid: 90df77f9e3e6bbe4ca06876a90e2a0df, type: 3}
+  PositionMode: 0
+  AlsoApplyRotation: 0
+  AlsoApplyScale: 0
+  TargetTransform: {fileID: 0}
+  TargetPosition: {x: 0, y: 0, z: 0}
+  PositionOffset: {x: 0, y: 0, z: 0}
+  CreateObjectPool: 0
+  ObjectPoolSize: 1
