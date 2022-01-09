@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using MoreMountains.Feedbacks;
 using UnityEngine.InputSystem;
-using DG.Tweening;
 
 public class Mover : MonoBehaviour
 {
@@ -34,8 +33,6 @@ public class Mover : MonoBehaviour
     [SerializeField] float rocketJumpLerp = 1f;
     [SerializeField] float rocketJumpGravity = 3f;
     [SerializeField] float timeToRecoveryGravity = 0.3f;
-    [SerializeField] float maxDrag = 8f;
-    [SerializeField] float timeToRecoveryDrag = 0.3f;
     [SerializeField] float timeToEndRocketJump = 0.3f;
 
     [Header("General")]
@@ -335,7 +332,6 @@ public class Mover : MonoBehaviour
         // if(isDashing) return;
 
         StopCoroutine(HandleRocketJump(direction));
-        SetRigidbodyDrag(0f);
         // STOP DOV
 
         //     Camera.main.transform.DOComplete(); // 연출
@@ -367,7 +363,6 @@ public class Mover : MonoBehaviour
         myRigidbody2D.velocity = Vector2.zero;
         myRigidbody2D.velocity += direction * rocketJumpForce;
 
-        DOVirtual.Float(maxDrag, 0, timeToRecoveryDrag, SetRigidbodyDrag); // Drag 조절
         myRigidbody2D.gravityScale = rocketJumpGravity;
         // GetComponent<BetterJumping>().enabled = false;
 
@@ -379,11 +374,6 @@ public class Mover : MonoBehaviour
 
         // yield return new WaitForSeconds(timeToEndRocketJump);
         // isRocketJumping = false;
-    }
-
-    void SetRigidbodyDrag(float dragToSet)
-    {
-        myRigidbody2D.drag = dragToSet;
     }
 
     void StartRocketJump()
