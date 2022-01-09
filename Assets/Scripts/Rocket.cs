@@ -5,7 +5,9 @@ using MoreMountains.Feedbacks;
 
 public class Rocket : MonoBehaviour
 {
+    [SerializeField] LayerMask breakableLayer;
     [SerializeField] MMFeedbacks explosionFeedback = null;
+    [SerializeField] ParticleSystem trailParticle = null;
     [SerializeField] float radius = 1f;
     [SerializeField] float explodeForce = 1f;
     [SerializeField] float flyForce = 1f;
@@ -42,13 +44,18 @@ public class Rocket : MonoBehaviour
         explosionFeedback.PlayFeedbacks();
 
         Explode();
-        Destroy(gameObject);
+
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<CapsuleCollider2D>().enabled = false;
+        trailParticle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        Destroy(gameObject, 1f);
     }
 
     void Explode()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
+        BreakTiles();
 
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
         foreach (Collider2D hit in colliders)
         {
             Rigidbody2D rb = hit.GetComponent<Rigidbody2D>();
@@ -58,6 +65,32 @@ public class Rocket : MonoBehaviour
                 {
                     Vector2 direction = (hit.transform.position - transform.position).normalized;
                     rb.GetComponent<Mover>().RocketJump(direction);
+                }
+            }
+        }
+    }
+
+    void BreakTiles()
+    {
+        int radiusInt = Mathf.RoundToInt(radius);
+        for(int i = -radiusInt; i <= radiusInt; i++)
+        {
+            for(int j = -radiusInt; j <= radiusInt; j++)
+            {
+                Vector3 checkCellPos = new Vector3(transform.position.x + i, transform.position.y + j, 0f);
+                float distance = Vector2.Distance(transform.position, checkCellPos) - 0.001f;
+
+                if(distance <= radiusInt)
+                {
+                    Collider2D overCollider2D = Physics2D.OverlapCircle(checkCellPos, 0.01f, breakableLayer);
+                    if(overCollider2D != null)
+                    {
+                        BreakableTile breakableTile = overCollider2D.GetComponent<BreakableTile>();
+                        if(breakableTile != null)
+                        {
+                            breakableTile.DeleteTile(checkCellPos);
+                        }
+                    }
                 }
             }
         }
